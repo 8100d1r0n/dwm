@@ -17,12 +17,14 @@ static const char colors[NUMCOLORS][ColLast][9] = {
   { "#282a2e", "#f0c674", "#282a2e" }, // 9 = yellow on darkgrey
   { "#282a2e", "#81a2be", "#282a2e" }, // A = blue on darkgrey
   { "#282a2e", "#b294bb", "#282a2e" }, // B = magenta on darkgrey
-  { "#282a2e", "#8abeb7", "#282a2e" }, // C = cyan on darkgrey  
+  { "#282a2e", "#8abeb7", "#282a2e" }, // C = cyan on darkgrey
 
   };
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 8;        /* snap pixel */
 static const Bool showbar           = True;     /* False means no bar */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const Bool showsystray       = True;     /* False means no systray */
 static const Bool topbar            = True;     /* False means bottom bar */
 
 /* tagging */
@@ -63,11 +65,11 @@ static const Bool resizehints = False; /* True means respect size hints in tiled
 //#include "moveresize.c"
 static const Layout layouts[] = {
   /* symbol     arrange function */
-  { "\uE019 \uE009 \uE019",    tile },    /* first entry is default */
-  { "\uE019 \uE00A \uE019",    NULL },    /* no layout function means floating behavior */
-  { "\uE019 \uE00B \uE019",    monocle },
-  { "\uE019 \uE00C \uE019",    bstack },
-  { "\uE019 \uE00D \uE019",    gaplessgrid },
+  { "\uE020 \uE009 \uE020",    tile },    /* first entry is default */
+  { "\uE020 \uE00A \uE020",    NULL },    /* no layout function means floating behavior */
+  { "\uE020 \uE00B \uE020",    monocle },
+  { "\uE020 \uE00C \uE020",    bstack },
+  { "\uE020 \uE00D \uE020",    gaplessgrid },
 };
 
 /* key definitions */
@@ -178,4 +180,3 @@ static Button buttons[] = {
   { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
   { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
