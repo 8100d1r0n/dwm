@@ -47,7 +47,8 @@ static const Rule rules[] = {
   { "fontforge",                NULL,        NULL,  1 << 5,   True,       True,       -1 },
   { "Gimp",                     NULL,        NULL,  1 << 5,   True,       True,       -1 },
   { "URxvt",                    "filemgr",   NULL,  1 << 6,   False,      False,      -1 },
-  { "Chromium",                 NULL,        NULL,  1 << 7,   False,      False,      -1 },
+  { "Thunar",                   NULL,        NULL,  1 << 6,   False,      False,      -1 },
+  { "Chromium",                   NULL,        NULL,  1 << 7,   False,      False,      -1 },
   { "Firefox",                  NULL,        NULL,  1 << 7,   False,      False,      -1 },
 };
 
@@ -91,7 +92,7 @@ static const char *mpcnext[]       = { "mpc", "-q", "next", NULL };
 static const char *filethunar[]    = { "thunar", NULL };
 static const char *cmdlock[]       = { "xlock", "-mode", "matrix", NULL };
 static const char *cmdfirefox[]	   = { "firefox", NULL };
-static const char *cmdchromium[]   = { "chromium", NULL };
+static const char *cmdchromium[]   = { "chrome", NULL };
 
 #include "push.c"
 static Key keys[] = {
@@ -106,7 +107,7 @@ static Key keys[] = {
   { MODKEY,                 XK_slash,         spawn,          {.v = mpctog } },
   { MODKEY,                 XK_bracketleft,   spawn,          {.v = mpcprev } },
   { MODKEY,                 XK_bracketright,  spawn,          {.v = mpcnext } },
-  { ControlMask|ShiftMask,	XK_1,             spawn,	      {.v = cmdfirefox} },
+  { ControlMask|ShiftMask,  XK_1,             spawn,	      {.v = cmdfirefox} },
   { ControlMask|ShiftMask,  XK_2,             spawn,          {.v = cmdchromium} },
   { MODKEY|ControlMask,     XK_b,             togglebar,      {0} },
   { MODKEY,                 XK_j,             focusstack,     {.i = +1 } },
