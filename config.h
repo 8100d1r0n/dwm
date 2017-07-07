@@ -80,7 +80,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char  *dmenucmd[]     = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char *dmenucmd[]      = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *termcmd[]       = { "urxvtc", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "urxvtc", "-name", scratchpadname, "-geometry", "80x23", NULL };
@@ -93,12 +93,14 @@ static const char *filethunar[]    = { "thunar", NULL };
 static const char *cmdlock[]       = { "xlock", "-mode", "matrix", NULL };
 static const char *cmdfirefox[]	   = { "firefox", NULL };
 static const char *cmdchromium[]   = { "chrome", NULL };
+static const char *tmuxcmd[]       = { "urxvtc", "-e", "tmux", NULL };
 
 #include "push.c"
 static Key keys[] = {
   /* modifier               key               function        argument */
   { MODKEY,                 XK_o,             spawn,          {.v = dmenucmd } },
   { MODKEY|ShiftMask,       XK_Return,        spawn,          {.v = termcmd } },
+  { MODKEY,       	    XK_Return,        spawn,          {.v = tmuxcmd } },
   { ControlMask|ShiftMask,  XK_z,             spawn,          {.v = cmdlock } },
   { ControlMask|ShiftMask,  XK_x,             spawn,          {.v = filethunar } },
   { MODKEY,                 XK_s,             togglescratch,  {.v = scratchpadcmd} },
