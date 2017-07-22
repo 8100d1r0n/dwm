@@ -62,7 +62,6 @@ static const Bool resizehints = False; /* True means respect size hints in tiled
 
 #include "bstack.c"
 #include "gaplessgrid.c"
-
 static const Layout layouts[] = {
   /* symbol     arrange function */
   { "\uE019 \uE009 \uE019",    tile },    /* first entry is default */
@@ -100,6 +99,7 @@ static const char *cmdchromium[]   = { "chromium", NULL };
 static const char *tmuxcmd[]       = { "urxvtc", "-e", "tmux", NULL };
 
 #include "push.c"
+#include "moveresize.c"
 static Key keys[] = {
   /* modifier               key               function        argument */
   { MODKEY,                 XK_o,             spawn,          {.v = dmenucmd } },
@@ -153,18 +153,17 @@ static Key keys[] = {
   { MODKEY|ShiftMask,       XK_q,             quit,           {0} },
 	// If togglemaximize is enabled:
 	//{ MODKEY,                       XK_m,      togglemaximize, {0} },
-
 	// Resizing / Moving
-	{ MODKEY,                       XK_Down,   moveresize,     {.v = (int []){ 0, 20, 0, 0 }}},
-	{ MODKEY,                       XK_Up,     moveresize,     {.v = (int []){ 0, -20, 0, 0 }}},
-	{ MODKEY,                       XK_Right,  moveresize,     {.v = (int []){ 20, 0, 0, 0 }}},
-	{ MODKEY,                       XK_Left,   moveresize,     {.v = (int []){ -20, 0, 0, 0 }}},
-	{ MODKEY|ShiftMask,             XK_Down,   moveresize,     {.v = (int []){ 0, 0, 0, 20 }}},
-	{ MODKEY|ShiftMask,             XK_Up,     moveresize,     {.v = (int []){ 0, 0, 0, -20 }}},
-	{ MODKEY|ShiftMask,             XK_Right,  moveresize,     {.v = (int []){ 0, 0, 20, 0 }}},
-	{ MODKEY|ShiftMask,             XK_Left,   moveresize,     {.v = (int []){ 0, 0, -20, 0 }}},
-	{ MODKEY|ControlMask,           XK_Down,   moveresize,     {.v = (int []){ 0, 0, 20, 20 }}},
-	{ MODKEY|ControlMask,           XK_Up,     moveresize,     {.v = (int []){ 0, 0, -20, -20 }}},
+
+        { MODKEY,                       XK_Down,   moveresize,     {.v = "0x 25y 0w 0h"  }}, 
+        { MODKEY,                       XK_Up,     moveresize,     {.v = "0x -25y 0w 0h" }},
+        { MODKEY,                       XK_Right,  moveresize,     {.v = "25x 0y 0w 0h"  }},
+        { MODKEY,                       XK_Left,   moveresize,     {.v = "-25x 0y 0w 0h" }},
+        { MODKEY|ShiftMask,             XK_Down,   moveresize,     {.v = "0x 0y 0w 25h"  }},
+        { MODKEY|ShiftMask,             XK_Up,     moveresize,     {.v = "0x 0y 0w -25h" }},
+        { MODKEY|ShiftMask,             XK_Right,  moveresize,     {.v = "0x 0y 25w 0h"  }},
+        { MODKEY|ShiftMask,             XK_Left,   moveresize,     {.v = "0x 0y -25w 0h" }},
+
 };
 
 /* button definitions */

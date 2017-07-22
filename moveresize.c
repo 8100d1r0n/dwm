@@ -1,5 +1,4 @@
-void
-moveresize(const Arg *arg) {
+void moveresize(const Arg *arg) {
 	/* only floating windows can be moved */
 	Client *c;
 	c = selmon->sel;
