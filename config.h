@@ -2,7 +2,7 @@
 
 /* appearance */
 static const char font[] = "-*-xbmicons-medium-r-*-*-12-*-*-*-*-*-*-*" ","
-                           "-*-terminus-medium-r-*-*-12-*-*-*-*-*-*-*";
+                           "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
 #define NUMCOLORS 12
 static const char colors[NUMCOLORS][ColLast][9] = {
   // border foreground background
@@ -20,12 +20,12 @@ static const char colors[NUMCOLORS][ColLast][9] = {
   { "#282a2e", "#8abeb7", "#282a2e" }, // C = cyan on darkgrey
 
   };
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 8;        /* snap pixel */
-static const Bool showbar           = True;     /* False means no bar */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
-static const Bool showsystray       = True;     /* False means no systray */
-static const Bool topbar            = True;     /* False means bottom bar */
+static const unsigned int borderpx        = 2;        /* border pixel of windows */
+static const unsigned int snap            = 8;        /* snap pixel */
+static const Bool showbar                 = True;     /* False means no bar */
+static const unsigned int systrayspacing  = 2;        /* systray spacing */
+static const Bool showsystray             = True;     /* False means no systray */
+static const Bool topbar                  = True;     /* False means bottom bar */
 
 /* tagging */
 static const char *tags[] = { "\uE000","\uE001","\uE002","\uE003","\uE008",
@@ -38,7 +38,7 @@ static const Rule rules[] = {
   { "XFontSel",                 NULL,        NULL,  0,        True,       True,       -1 },
   { "Xfd",                      NULL,        NULL,  0,        True,       True,       -1 },
   { "Chromium",                 NULL,        NULL,  0,        True,       True,       -1 },
-  { "URxvt",                    "irc",       NULL,  1 << 1,   False,      False,      -1 },
+  { "URxvt",                    "ircmailbt", NULL,  1 << 1,   False,      False,      -1 },
   { "Gvim",                     NULL,        NULL,  1 << 2,   False,      False,      -1 },
   { "Zathura",                  NULL,        NULL,  1 << 3,   False,      False,      -1 },
   { "libreoffice-calc",         NULL,        NULL,  1 << 3,   False,      False,      -1 },
@@ -52,7 +52,7 @@ static const Rule rules[] = {
   { "URxvt",                    "filemgr",   NULL,  1 << 6,   True,       True,       -1 },
   { "Thunar",                   NULL,	     NULL,  1 << 6,   False,      False,      -1 },
   { "Firefox",                  NULL,        NULL,  1 << 7,   False,      False,      -1 },
-//  { "Chromium",			        NULL,        NULL,  1 << 7,   False,      False,      -1 },
+  { "Chromium",			        NULL,        NULL,  1 << 8,   False,      False,      -1 },
 };
 
 /* layout(s) */
@@ -62,7 +62,7 @@ static const Bool resizehints = False; /* True means respect size hints in tiled
 
 #include "bstack.c"
 #include "gaplessgrid.c"
-//#include "moveresize.c"
+
 static const Layout layouts[] = {
   /* symbol     arrange function */
   { "\uE019 \uE009 \uE019",    tile },    /* first entry is default */
@@ -84,7 +84,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char  *dmenucmd[]     = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char *dmenucmd[]      = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *termcmd[]       = { "urxvtc", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "urxvtc", "-name", scratchpadname, "-geometry", "79x22", NULL };
@@ -97,22 +97,24 @@ static const char *filethunar[]    = { "thunar", NULL };
 static const char *cmdlock[]       = { "xlock", "-mode", "matrix", NULL };
 static const char *cmdfirefox[]	   = { "firefox", NULL };
 static const char *cmdchromium[]   = { "chromium", NULL };
+static const char *tmuxcmd[]       = { "urxvtc", "-e", "tmux", NULL };
 
 #include "push.c"
 static Key keys[] = {
   /* modifier               key               function        argument */
   { MODKEY,                 XK_o,             spawn,          {.v = dmenucmd } },
   { MODKEY|ShiftMask,       XK_Return,        spawn,          {.v = termcmd } },
-  { ControlMask|ShiftMask,       XK_z,        spawn,          {.v = cmdlock } },
-  { ControlMask|ShiftMask,       XK_x,        spawn,          {.v = filethunar } },
+  { MODKEY,                 XK_Return,        spawn,          {.v = tmuxcmd } },
+  { ControlMask|ShiftMask,  XK_z,             spawn,          {.v = cmdlock } },
+  { ControlMask|ShiftMask,  XK_x,             spawn,          {.v = filethunar } },
   { MODKEY,                 XK_s,             togglescratch,  {.v = scratchpadcmd} },
   { MODKEY,                 XK_apostrophe,    spawn,          {.v = volupcmd } },
   { MODKEY,                 XK_semicolon,     spawn,          {.v = voldncmd } },
   { MODKEY,                 XK_slash,         spawn,          {.v = mpctog } },
   { MODKEY,                 XK_bracketleft,   spawn,          {.v = mpcprev } },
   { MODKEY,                 XK_bracketright,  spawn,          {.v = mpcnext } },
-  { ControlMask|ShiftMask,	    XK_1,	      spawn,	      {.v = cmdfirefox} },
-  { ControlMask|ShiftMask,	    XK_2,	      spawn,	      {.v = cmdchromium} },
+  { ControlMask|ShiftMask,  XK_1,             spawn,          {.v = cmdfirefox} },
+  { ControlMask|ShiftMask,  XK_2,             spawn,          {.v = cmdchromium} },
   { MODKEY|ControlMask,     XK_b,             togglebar,      {0} },
   { MODKEY,                 XK_j,             focusstack,     {.i = +1 } },
   { MODKEY,                 XK_k,             focusstack,     {.i = -1 } },
@@ -138,16 +140,17 @@ static Key keys[] = {
   { MODKEY,                 XK_period,        focusmon,       {.i = +1 } },
   { MODKEY|ShiftMask,       XK_comma,         tagmon,         {.i = -1 } },
   { MODKEY|ShiftMask,       XK_period,        tagmon,         {.i = +1 } },
+
   TAGKEYS(                  XK_1,                             0)
-    TAGKEYS(                  XK_2,                             1)
-    TAGKEYS(                  XK_3,                             2)
-    TAGKEYS(                  XK_4,                             3)
-    TAGKEYS(                  XK_5,                             4)
-    TAGKEYS(                  XK_6,                             5)
-    TAGKEYS(                  XK_7,                             6)
-    TAGKEYS(                  XK_8,                             7)
-    TAGKEYS(                  XK_9,                             8)
-    { MODKEY|ShiftMask,       XK_q,             quit,           {0} },
+  TAGKEYS(                  XK_2,                             1)
+  TAGKEYS(                  XK_3,                             2)
+  TAGKEYS(                  XK_4,                             3)
+  TAGKEYS(                  XK_5,                             4)
+  TAGKEYS(                  XK_6,                             5)
+  TAGKEYS(                  XK_7,                             6)
+  TAGKEYS(                  XK_8,                             7)
+  TAGKEYS(                  XK_9,                             8)
+  { MODKEY|ShiftMask,       XK_q,             quit,           {0} },
 	// If togglemaximize is enabled:
 	//{ MODKEY,                       XK_m,      togglemaximize, {0} },
 
@@ -158,10 +161,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Left,   moveresize,     {.v = (int []){ -20, 0, 0, 0 }}},
 	{ MODKEY|ShiftMask,             XK_Down,   moveresize,     {.v = (int []){ 0, 0, 0, 20 }}},
 	{ MODKEY|ShiftMask,             XK_Up,     moveresize,     {.v = (int []){ 0, 0, 0, -20 }}},
-	{ MODKEY|ShiftMask,             XK_Right,  moveresize,     {.v = (int []){ 0, 0, 15, 0 }}},
+	{ MODKEY|ShiftMask,             XK_Right,  moveresize,     {.v = (int []){ 0, 0, 20, 0 }}},
 	{ MODKEY|ShiftMask,             XK_Left,   moveresize,     {.v = (int []){ 0, 0, -20, 0 }}},
-	{ MODKEY|ControlMask,           XK_Down,     moveresize,     {.v = (int []){ 0, 0, 20, 20 }}},
-	{ MODKEY|ControlMask,           XK_Up,   moveresize,     {.v = (int []){ 0, 0, -20, -20 }}},
+	{ MODKEY|ControlMask,           XK_Down,   moveresize,     {.v = (int []){ 0, 0, 20, 20 }}},
+	{ MODKEY|ControlMask,           XK_Up,     moveresize,     {.v = (int []){ 0, 0, -20, -20 }}},
 };
 
 /* button definitions */
